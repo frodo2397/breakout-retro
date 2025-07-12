@@ -6,7 +6,7 @@ var bricks_destroyed = 0
 const BRICK_ROWS = 3
 const BRICK_COLS = 5
 
-#https://pixabay.com/sound-effects/arcade-8bit-fx-159064/
+
 
 func _ready():
 	update_score()
