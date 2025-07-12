@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkli8lcnl78d0"]
+
+[ext_resource type="Texture2D" uid="uid://bofn5i2va60dh" path="res://wall_roof.png" id="1_oj3tl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dqe8m"]
+size = Vector2(1911, 20)
+
+[node name="Floor" type="Node2D"]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(954.5, 10)
+shape = SubResource("RectangleShape2D_dqe8m")
+
+[node name="WallFloor" type="Sprite2D" parent="Floor"]
+position = Vector2(954.5, 10)
+scale = Vector2(2.65417, 1)
+texture = ExtResource("1_oj3tl")

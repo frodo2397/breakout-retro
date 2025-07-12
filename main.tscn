@@ -1,0 +1,97 @@
+[gd_scene load_steps=15 format=3 uid="uid://bx1eq6ga6whof"]
+
+[ext_resource type="Script" uid="uid://dkcgy43k87rw6" path="res://main.gd" id="1_7mycd"]
+[ext_resource type="PackedScene" uid="uid://bsnuvfw10d4oe" path="res://wall.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://x0x8dfqset8i" path="res://roof.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://0gkq5tdwyvxm" path="res://player.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://c8j7tvw44uyrg" path="res://ball.tscn" id="4_1bvp3"]
+[ext_resource type="Shader" uid="uid://bvkyl2rcyv2xm" path="res://crt.gdshader" id="7_5vw27"]
+[ext_resource type="PackedScene" uid="uid://dkli8lcnl78d0" path="res://floor.tscn" id="7_272bh"]
+[ext_resource type="AudioStream" uid="uid://bcm202mfokaii" path="res://arcade-8bit-fx-159064.mp3" id="8_5vw27"]
+[ext_resource type="AudioStream" uid="uid://b8fwr8twjqdyb" path="res://game_over.mp3" id="9_kek77"]
+
+[sub_resource type="Gradient" id="Gradient_1bvp3"]
+colors = PackedColorArray(0, 0, 0, 1, 0.20033, 0.20033, 0.20033, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_lquwl"]
+gradient = SubResource("Gradient_1bvp3")
+
+[sub_resource type="SystemFont" id="SystemFont_7mycd"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_272bh"]
+font = SubResource("SystemFont_7mycd")
+font_size = 50
+font_color = Color(0.156863, 0.737255, 0.168627, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kek77"]
+shader = ExtResource("7_5vw27")
+shader_parameter/resolution = Vector2(400, 240)
+shader_parameter/scan_line_amount = 1.0
+shader_parameter/warp_amount = 0.1
+shader_parameter/noise_amount = 0.03
+shader_parameter/interference_amount = 0.2
+shader_parameter/grille_amount = 0.1
+shader_parameter/grille_size = 1.0
+shader_parameter/vignette_amount = 0.6
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/aberation_amount = 0.5
+shader_parameter/roll_line_amount = 0.3
+shader_parameter/roll_speed = 1.0
+shader_parameter/scan_line_strength = -8.0
+shader_parameter/pixel_strength = -2.0
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_7mycd")
+
+[node name="Wall" parent="." instance=ExtResource("1_ig7tw")]
+position = Vector2(10, 641)
+
+[node name="Wall2" parent="." instance=ExtResource("1_ig7tw")]
+position = Vector2(1900, 640)
+
+[node name="Roof" parent="." instance=ExtResource("2_0xm2m")]
+position = Vector2(-6, 0)
+
+[node name="Player" parent="." instance=ExtResource("3_h2yge")]
+position = Vector2(762, 1008)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(954.564, 538.996)
+rotation = 1.5708
+scale = Vector2(4.18747, 1903.63)
+texture = SubResource("GradientTexture1D_lquwl")
+
+[node name="Ball" parent="." instance=ExtResource("4_1bvp3")]
+unique_name_in_owner = true
+position = Vector2(925, 966)
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 55.0
+offset_top = 48.0
+offset_right = 334.0
+offset_bottom = 109.0
+text = "Score: "
+label_settings = SubResource("LabelSettings_272bh")
+
+[node name="Floor" parent="." instance=ExtResource("7_272bh")]
+position = Vector2(-1, 1264)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+z_index = 1
+material = SubResource("ShaderMaterial_kek77")
+offset_right = 1909.0
+offset_bottom = 1284.0
+
+[node name="blip" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("8_5vw27")
+
+[node name="gameover" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("9_kek77")
+
+[connection signal="collided_with_entity" from="Ball" to="." method="_on_ball_collided_with_entity"]
